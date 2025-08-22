@@ -108,6 +108,132 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
+        /* 聯絡資訊區塊樣式 */
+        .contact-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-header h2 {
+            font-size: 2em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .contact-header p {
+            color: #666;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 25px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+            background: rgba(102, 126, 234, 0.08);
+        }
+
+        .contact-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-details h3 {
+            color: #333;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .contact-details p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .qr-code-section {
+            text-align: center;
+            padding: 30px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            border: 2px dashed rgba(102, 126, 234, 0.3);
+        }
+
+        .qr-code-section h3 {
+            color: #333;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .qr-code-placeholder {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .qr-code-placeholder:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: #764ba2;
+        }
+
+        .qr-code-placeholder small {
+            margin-top: 10px;
+            color: #999;
+            font-size: 0.8em;
+        }
+
         /* 燈箱效果 */
         .lightbox {
             display: none;
@@ -181,6 +307,33 @@
                 right: 20px;
                 font-size: 25px;
             }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-item {
+                padding: 20px;
+            }
+
+            .contact-header h2 {
+                font-size: 1.8em;
+            }
+
+            .qr-code-section {
+                padding: 20px;
+            }
+
+            .qr-code-placeholder {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         /* 超小螢幕 */
@@ -197,6 +350,25 @@
             .container {
                 padding: 15px;
             }
+
+            .contact-section {
+                margin-top: 40px;
+                padding-top: 30px;
+            }
+
+            .contact-item {
+                padding: 15px;
+            }
+
+            .contact-icon {
+                font-size: 1.5em;
+            }
+
+            .qr-code-placeholder {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8em;
+            }
         }
 
         /* 載入動畫 */
@@ -212,6 +384,24 @@
         .gallery-item:nth-child(4) { animation-delay: 0.4s; }
         .gallery-item:nth-child(5) { animation-delay: 0.5s; }
         .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        .contact-item {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .contact-item:nth-child(1) { animation-delay: 0.7s; }
+        .contact-item:nth-child(2) { animation-delay: 0.8s; }
+        .contact-item:nth-child(3) { animation-delay: 0.9s; }
+        .contact-item:nth-child(4) { animation-delay: 1.0s; }
+
+        .qr-code-section {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            animation-delay: 1.1s;
+        }
 
         @keyframes fadeInUp {
             to {
@@ -268,6 +458,62 @@
                 <img src="Limb.png" alt="雙段外置">
                 <div class="overlay">
                     <div class="overlay-text">雙段外置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聯絡資訊區塊 -->
+        <div class="contact-section">
+            <div class="contact-header">
+                <h2>聯絡我們</h2>
+                <p>歡迎隨時與我們聯繫</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">🏢</div>
+                        <div class="contact-details">
+                            <h3>公司名稱</h3>
+                            <p>志豪の斷腿商店</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>地址</h3>
+                            <p>台灣桃園市中壢區中央路123號</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h3>電話</h3>
+                            <p>+886-3-1234-5678</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-details">
+                            <h3>LINE ID</h3>
+                            <p>@zhihao-limb-shop</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-code-section">
+                    <h3>LINE QR Code</h3>
+                    <div class="qr-placeholder">
+                        <!-- 這裡放置您的 LINE QR Code 圖片 -->
+                        <div class="qr-code-placeholder">
+                            <p>請將您的 LINE QR Code<br>圖片放置在此處</p>
+                            <small>建議尺寸: 200x200px</small>
+                        </div>
+                        <!-- 實際使用時請替換為: <img src="your-qr-code.png" alt="LINE QR Code"> -->
+                    </div>
                 </div>
             </div>
         </div>
