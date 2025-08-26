@@ -31,7 +31,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
@@ -50,11 +50,66 @@
             opacity: 0.8;
         }
 
+        /* 標籤篩選區塊 */
+        .filter-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-tabs {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            gap: 5px;
+        }
+
+        .filter-tab {
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .filter-tab:hover {
+            color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+        }
+
+        /* 修正網格大小 - 使用固定的列寬 */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             margin-bottom: 30px;
+            /* 確保網格項目最大寬度一致 */
+            max-width: 100%;
         }
 
         .product-card {
@@ -65,6 +120,15 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             position: relative;
+            /* 固定最大寬度，避免過度伸展 */
+            max-width: 400px;
+            /* 在網格中居中 */
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .product-card.hidden {
+            display: none;
         }
 
         .product-card:hover {
@@ -76,6 +140,8 @@
             position: relative;
             aspect-ratio: 1;
             overflow: hidden;
+            /* 確保圖片容器大小固定 */
+            width: 100%;
         }
 
         .product-image img {
@@ -143,23 +209,6 @@
             font-size: 0.9em;
             line-height: 1.5;
             margin-bottom: 20px;
-        }
-
-        .buy-button {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-        }
-
-        .buy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
         .sale-badge {
@@ -363,9 +412,25 @@
                 font-size: 2em;
             }
 
+            .filter-tabs {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+
+            .filter-tab {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            /* 手機版固定網格為單列 */
             .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 20px;
+            }
+
+            .product-card {
+                max-width: 100%;
             }
 
             .product-info {
@@ -403,15 +468,34 @@
             }
         }
 
+        /* 平板版調整 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
+        }
+
+        /* 大螢幕版調整 */
+        @media (min-width: 1025px) {
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
+        }
+
         /* 超小螢幕 */
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 1.8em;
-            }
-
-            .gallery {
-                grid-template-columns: 1fr;
-                gap: 15px;
             }
 
             .container {
@@ -491,8 +575,18 @@
             <p>各種生活百貨雜貨 - 品質保證，價格實惠</p>
         </div>
 
+        <!-- 商品分類標籤 -->
+        <div class="filter-section">
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterProducts('all')">全部商品</button>
+                <button class="filter-tab" onclick="filterProducts('大腿')">大腿系列</button>
+                <button class="filter-tab" onclick="filterProducts('小腿')">小腿系列</button>
+                <button class="filter-tab" onclick="filterProducts('內置')">內置系列</button>
+            </div>
+        </div>
+
         <div class="gallery" id="gallery">
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置 小腿" onclick="openLightbox('Limb.png')">
                 <div class="sale-badge">熱銷</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="內置小腿">
@@ -504,11 +598,10 @@
                     <div class="product-name">內置小腿</div>
                     <div class="product-price">NT$ 1,299</div>
                     <div class="product-description">高品質內置小腿，舒適耐用，適合長時間使用</div>
-
                 </div>
             </div>
 
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置 大腿" onclick="openLightbox('Limb.png')">
                 <div class="product-image">
                     <img src="Limb.png" alt="內置大腿">
                     <div class="overlay">
@@ -519,11 +612,10 @@
                     <div class="product-name">內置大腿</div>
                     <div class="product-price">NT$ 1,599</div>
                     <div class="product-description">專業內置大腿設計，提供最佳支撐效果</div>
-
                 </div>
             </div>
 
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="小腿" onclick="openLightbox('Limb.png')">
                 <div class="sale-badge">推薦</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="外置小腿">
@@ -535,11 +627,10 @@
                     <div class="product-name">外置小腿</div>
                     <div class="product-price">NT$ 999</div>
                     <div class="product-description">輕量化外置小腿，操作簡單，性價比超高</div>
-
                 </div>
             </div>
 
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="大腿" onclick="openLightbox('Limb.png')">
                 <div class="product-image">
                     <img src="Limb.png" alt="外置大腿">
                     <div class="overlay">
@@ -550,11 +641,10 @@
                     <div class="product-name">外置大腿</div>
                     <div class="product-price">NT$ 1,199</div>
                     <div class="product-description">堅固耐用的外置大腿，適合各種環境使用</div>
-
                 </div>
             </div>
 
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置" onclick="openLightbox('Limb.png')">
                 <div class="sale-badge">新品</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="雙段內置">
@@ -566,11 +656,10 @@
                     <div class="product-name">雙段內置</div>
                     <div class="product-price">NT$ 1,899</div>
                     <div class="product-description">創新雙段設計，提供更靈活的調整功能</div>
-
                 </div>
             </div>
 
-            <div class="product-card" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="外置" onclick="openLightbox('Limb.png')">
                 <div class="product-image">
                     <img src="Limb.png" alt="雙段外置">
                     <div class="overlay">
@@ -581,7 +670,6 @@
                     <div class="product-name">雙段外置</div>
                     <div class="product-price">NT$ 1,699</div>
                     <div class="product-description">雙段外置設計，兼顧功能性與便利性</div>
-
                 </div>
             </div>
         </div>
@@ -663,11 +751,29 @@
             document.body.style.overflow = 'auto';
         }
 
-        function contactUs(event, productName) {
-            event.stopPropagation(); // 防止觸發父元素的點擊事件
-            const message = `您好！我對「${productName}」這個商品有興趣，請問可以提供更多資訊嗎？`;
-            const lineUrl = `https://line.me/R/oaoa/msg?${encodeURIComponent(message)}`;
-            window.open(lineUrl, '_blank');
+        // 商品篩選功能
+        function filterProducts(category) {
+            const products = document.querySelectorAll('.product-card');
+            const tabs = document.querySelectorAll('.filter-tab');
+            
+            // 更新標籤狀態
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 篩選商品
+            products.forEach(product => {
+                const productCategory = product.getAttribute('data-category') || '';
+                
+                if (category === 'all') {
+                    product.classList.remove('hidden');
+                } else {
+                    if (productCategory.includes(category)) {
+                        product.classList.remove('hidden');
+                    } else {
+                        product.classList.add('hidden');
+                    }
+                }
+            });
         }
 
         // ESC鍵關閉燈箱
