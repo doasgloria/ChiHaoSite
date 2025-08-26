@@ -50,7 +50,6 @@
             opacity: 0.8;
         }
 
-        /* 標籤篩選區塊 */
         .filter-section {
             text-align: center;
             margin-bottom: 40px;
@@ -102,13 +101,11 @@
             border-radius: 50%;
         }
 
-        /* 修正網格大小 - 使用固定的列寬 */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             margin-bottom: 30px;
-            /* 確保網格項目最大寬度一致 */
             max-width: 100%;
         }
 
@@ -120,9 +117,7 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             position: relative;
-            /* 固定最大寬度，避免過度伸展 */
             max-width: 400px;
-            /* 在網格中居中 */
             margin: 0 auto;
             width: 100%;
         }
@@ -140,7 +135,6 @@
             position: relative;
             aspect-ratio: 1;
             overflow: hidden;
-            /* 確保圖片容器大小固定 */
             width: 100%;
         }
 
@@ -224,7 +218,6 @@
             z-index: 10;
         }
 
-        /* 聯絡資訊區塊樣式 */
         .contact-section {
             margin-top: 60px;
             padding-top: 40px;
@@ -357,7 +350,6 @@
             font-size: 0.8em;
         }
 
-        /* 燈箱效果 */
         .lightbox {
             display: none;
             position: fixed;
@@ -369,6 +361,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .lightbox.active {
@@ -376,10 +369,60 @@
         }
 
         .lightbox-content {
+            display: flex;
             max-width: 90%;
             max-height: 90%;
+            background: #fff;
             border-radius: 10px;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .lightbox-image {
+            max-width: 50%;
+            object-fit: contain;
+        }
+
+        .lightbox-text {
+            padding: 30px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 1));
+        }
+
+        .lightbox-text h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .lightbox-text .price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .lightbox-text .description {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .lightbox-text .additional-info {
+            color: #333;
+            font-size: 0.95em;
+            line-height: 1.6;
+            background: rgba(102, 126, 234, 0.05);
+            padding: 15px;
+            border-radius: 10px;
         }
 
         .close-btn {
@@ -397,7 +440,6 @@
             transform: scale(1.2);
         }
 
-        /* 手機版調整 */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -423,7 +465,6 @@
                 font-size: 0.9em;
             }
 
-            /* 手機版固定網格為單列 */
             .gallery {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -466,9 +507,32 @@
             .image-section {
                 padding: 20px;
             }
+
+            .lightbox-content {
+                flex-direction: column;
+                max-height: 80%;
+                overflow-y: auto;
+            }
+
+            .lightbox-image {
+                max-width: 100%;
+                max-height: 40%;
+            }
+
+            .lightbox-text {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .lightbox-text h2 {
+                font-size: 1.5em;
+            }
+
+            .lightbox-text .price {
+                font-size: 1.3em;
+            }
         }
 
-        /* 平板版調整 */
         @media (min-width: 769px) and (max-width: 1024px) {
             .gallery {
                 grid-template-columns: repeat(2, 1fr);
@@ -480,7 +544,6 @@
             }
         }
 
-        /* 大螢幕版調整 */
         @media (min-width: 1025px) {
             .gallery {
                 grid-template-columns: repeat(3, 1fr);
@@ -492,7 +555,6 @@
             }
         }
 
-        /* 超小螢幕 */
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 1.8em;
@@ -526,9 +588,16 @@
             .product-price {
                 font-size: 1.2em;
             }
+
+            .lightbox-text h2 {
+                font-size: 1.3em;
+            }
+
+            .lightbox-text .price {
+                font-size: 1.2em;
+            }
         }
 
-        /* 載入動畫 */
         .product-card {
             animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
@@ -575,7 +644,6 @@
             <p>各種生活百貨雜貨 - 品質保證，價格實惠</p>
         </div>
 
-        <!-- 商品分類標籤 -->
         <div class="filter-section">
             <div class="filter-tabs">
                 <button class="filter-tab active" onclick="filterProducts('all')">全部商品</button>
@@ -586,12 +654,12 @@
         </div>
 
         <div class="gallery" id="gallery">
-            <div class="product-card" data-category="內置 小腿" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置 小腿" onclick="openLightbox('Limb.png', '內置小腿', 'NT$ 1,299', '高品質內置小腿，舒適耐用，適合長時間使用', '這款內置小腿採用高級材料製成，提供極佳的舒適度和耐用性，適合日常使用和長期穿戴。')">
                 <div class="sale-badge">熱銷</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="內置小腿">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -601,11 +669,11 @@
                 </div>
             </div>
 
-            <div class="product-card" data-category="內置 大腿" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置 大腿" onclick="openLightbox('Limb.png', '內置大腿', 'NT$ 1,599', '專業內置大腿設計，提供最佳支撐效果', '內置大腿設計專為需要額外支撐的用戶打造，結合人體工學，提供無與倫比的舒適體驗。')">
                 <div class="product-image">
                     <img src="Limb.png" alt="內置大腿">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -615,12 +683,12 @@
                 </div>
             </div>
 
-            <div class="product-card" data-category="小腿" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="小腿" onclick="openLightbox('Limb.png', '外置小腿', 'NT$ 999', '輕量化外置小腿，操作簡單，性價比超高', '外置小腿以輕量化設計為特色，安裝簡單，適合追求高性價比的用戶。')">
                 <div class="sale-badge">推薦</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="外置小腿">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -630,11 +698,11 @@
                 </div>
             </div>
 
-            <div class="product-card" data-category="大腿" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="大腿" onclick="openLightbox('Limb.png', '外置大腿', 'NT$ 1,199', '堅固耐用的外置大腿，適合各種環境使用', '外置大腿採用耐用材料，適合多種使用場景，確保長期穩定性。')">
                 <div class="product-image">
                     <img src="Limb.png" alt="外置大腿">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -644,12 +712,12 @@
                 </div>
             </div>
 
-            <div class="product-card" data-category="內置" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="內置" onclick="openLightbox('Limb.png', '雙段內置', 'NT$ 1,899', '創新雙段設計，提供更靈活的調整功能', '雙段內置設計提供靈活的調整選項，滿足不同用戶的個性化需求。')">
                 <div class="sale-badge">新品</div>
                 <div class="product-image">
                     <img src="Limb.png" alt="雙段內置">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -659,11 +727,11 @@
                 </div>
             </div>
 
-            <div class="product-card" data-category="外置" onclick="openLightbox('Limb.png')">
+            <div class="product-card" data-category="外置" onclick="openLightbox('Limb.png', '雙段外置', 'NT$ 1,699', '雙段外置設計，兼顧功能性與便利性', '雙段外置設計結合功能性與便攜性，是戶外活動的理想選擇。')">
                 <div class="product-image">
                     <img src="Limb.png" alt="雙段外置">
                     <div class="overlay">
-                        <div class="overlay-text">點擊查看大圖</div>
+                        <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
@@ -674,7 +742,6 @@
             </div>
         </div>
 
-        <!-- 聯絡資訊區塊 -->
         <div class="contact-section">
             <div class="contact-header">
                 <h2>聯絡我們</h2>
@@ -730,17 +797,34 @@
         </div>
     </div>
 
-    <!-- 燈箱 -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <span class="close-btn">&times;</span>
-        <img class="lightbox-content" id="lightbox-img" src="" alt="">
+        <div class="lightbox-content">
+            <img class="lightbox-image" id="lightbox-img" src="" alt="">
+            <div class="lightbox-text">
+                <h2 id="lightbox-title"></h2>
+                <div class="price" id="lightbox-price"></div>
+                <div class="description" id="lightbox-description"></div>
+                <div class="additional-info" id="lightbox-additional"></div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function openLightbox(src) {
+        function openLightbox(src, title, price, description, additionalInfo) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxPrice = document.getElementById('lightbox-price');
+            const lightboxDescription = document.getElementById('lightbox-description');
+            const lightboxAdditional = document.getElementById('lightbox-additional');
+
             lightboxImg.src = src;
+            lightboxTitle.textContent = title;
+            lightboxPrice.textContent = price;
+            lightboxDescription.textContent = description;
+            lightboxAdditional.textContent = additionalInfo || '更多詳情請聯繫我們以獲取最新資訊。';
+
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -751,16 +835,13 @@
             document.body.style.overflow = 'auto';
         }
 
-        // 商品篩選功能
         function filterProducts(category) {
             const products = document.querySelectorAll('.product-card');
             const tabs = document.querySelectorAll('.filter-tab');
             
-            // 更新標籤狀態
             tabs.forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
             
-            // 篩選商品
             products.forEach(product => {
                 const productCategory = product.getAttribute('data-category') || '';
                 
@@ -776,15 +857,17 @@
             });
         }
 
-        // ESC鍵關閉燈箱
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
             }
         });
 
-        // 防止點擊圖片時關閉燈箱
         document.getElementById('lightbox-img').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        document.querySelector('.lightbox-text').addEventListener('click', function(e) {
             e.stopPropagation();
         });
     </script>
