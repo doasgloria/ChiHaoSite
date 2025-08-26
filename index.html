@@ -4,179 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>多多生活百貨</title>
-<style>
-    /* 基礎樣式 */
-    body {
-        font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
-    header {
-        background-color: #333;
-        color: white;
-        padding: 1rem;
-        text-align: center;
-    }
-    /* 導覽列與標籤 */
-    nav {
-        background-color: #444;
-        padding: 0.5rem;
-        text-align: center;
-    }
-    nav button {
-        background-color: #555;
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        margin: 0 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    nav button:hover {
-        background-color: #777;
-    }
-    /* 商品網格 */
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 預設電腦版 3 個欄位 */
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: 20px auto;
-    }
-    .product-item {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        text-align: center;
-        padding: 15px;
-        cursor: pointer;
-        transition: transform 0.3s;
-        /* 新增：確保高度一致 */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .product-item:hover {
-        transform: translateY(-5px);
-    }
-    .product-item img {
-        width: 100%;
-        height: auto;
-        border-radius: 6px;
-    }
-    .product-item h3 {
-        margin: 10px 0;
-        font-size: 1.2rem;
-    }
-    .product-item .price {
-        font-size: 1.5rem;
-        color: #e67e22;
-        font-weight: bold;
-    }
-    /* Lightbox */
-    .lightbox-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        overflow-y: auto;
-    }
-    .lightbox-content {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        max-width: 600px;
-        width: 90%;
-        position: relative;
-        animation: fadeIn 0.3s ease-in-out;
-        box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    .lightbox-close {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        font-size: 2rem;
-        cursor: pointer;
-        color: #aaa;
-        transition: color 0.3s;
-        z-index: 100;
-    }
-    .lightbox-close:hover {
-        color: #333;
-    }
-    .lightbox-content img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 6px;
-    }
-    .lightbox-content h2 {
-        margin-top: 0;
-        color: #444;
-        font-size: 1.8rem;
-    }
-    .lightbox-content .lightbox-price {
-        font-size: 2rem;
-        color: #e67e22;
-        font-weight: bold;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-    .lightbox-details {
-        margin-top: 20px;
-        line-height: 1.6;
-    }
-    .lightbox-details h4 {
-        margin-bottom: 5px;
-        color: #555;
-        font-size: 1.2rem;
-    }
-    .lightbox-details ul {
-        padding-left: 0;
-        list-style: none;
-    }
-    .lightbox-details ul li {
-        margin-bottom: 8px;
-        background-color: #e9ecef;
-        padding: 8px 12px;
-        border-radius: 5px;
-        font-size: 1rem;
-        color: #333;
-    }
-    .lightbox-details ul li:not(:last-child) {
-        margin-bottom: 8px;
-    }
-    /* 底部資訊 */
-    footer {
-        background-color: #333;
-        color: white;
-        text-align: center;
-        padding: 2rem;
-        margin-top: 30px;
-    }
-    footer p {
-        margin: 5px 0;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
-    /* 媒體查詢：手機版佈局 */
-    @media (max-width: 768px) {
-        .product-grid {
-            grid-template-columns: 1fr; /* 手機版改為單個欄位 */
+    <style>
+        /* 基礎樣式 */
+        body {
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-    }
-</style>
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        /* 導覽列與標籤 */
+        nav {
+            background-color: #444;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        nav button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        nav button:hover {
+            background-color: #777;
+        }
+        /* 商品網格 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 預設電腦版 3 個欄位 */
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .product-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative; /* 用來定位標籤 */
+        }
+        .product-item:hover {
+            transform: translateY(-5px);
+        }
+        .product-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+        .product-item h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+        .product-item .price {
+            font-size: 1.5rem;
+            color: #e67e22;
+            font-weight: bold;
+        }
+        /* 新增：標籤樣式 */
+        .product-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e74c3c; /* 紅色背景 */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px; /* 橢圓形 */
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 10; /* 確保標籤在圖片上方 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            /* **修正**：移除 'display: none;'，讓標籤預設可見。 */
+        }
+        /* Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .lightbox-content {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s;
+            z-index: 100;
+        }
+        .lightbox-close:hover {
+            color: #333;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+        .lightbox-content h2 {
+            margin-top: 0;
+            color: #444;
+            font-size: 1.8rem;
+        }
+        .lightbox-content .lightbox-price {
+            font-size: 2rem;
+            color: #e67e22;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .lightbox-details {
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        .lightbox-details h4 {
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 1.2rem;
+        }
+        .lightbox-details ul {
+            padding-left: 0;
+            list-style: none;
+        }
+        .lightbox-details ul li {
+            margin-bottom: 8px;
+            background-color: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .lightbox-details ul li:not(:last-child) {
+            margin-bottom: 8px;
+        }
+        /* 底部資訊 */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 30px;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* 媒體查詢：手機版佈局 */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr; /* 手機版改為單個欄位 */
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -231,6 +247,7 @@
         },
         {
             "name": "LTP 雙頭護眼可定時 五色溫檯燈 全平面照明 五色溫 滑動調光 插電款 桌燈 閱讀燈 宿舍燈 開學必備 DT03",
+            "tag": "熱銷",
             "catg": "light",
             "Price": 688,
             "introduce": "雙頭燈 全桌面照明 雙頭全開加倍明亮",
@@ -271,24 +288,28 @@
 
     // 顯示商品
     function displayProducts(filteredProducts) {
-        productGrid.innerHTML = '';
-        filteredProducts.forEach(product => {
-            const item = document.createElement('div');
-            item.className = 'product-item';
-            item.setAttribute('data-name', product.name);
+            productGrid.innerHTML = '';
+            filteredProducts.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'product-item';
+                item.setAttribute('data-name', product.name);
 
-            item.innerHTML = `
-                <img src="./images/${product.name}.avif" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p class="price">NT$ ${product.Price}</p>
-            `;
+                // 根據商品是否有 tag 屬性來動態生成標籤
+                const tagHtml = product.tag ? `<div class="product-tag">${product.tag}</div>` : '';
 
-            item.addEventListener('click', () => {
-                openLightbox(product);
+                item.innerHTML = `
+                    ${tagHtml}
+                    <img src="./images/${product.name}.avif" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p class="price">NT$ ${product.Price}</p>
+                `;
+
+                item.addEventListener('click', () => {
+                    openLightbox(product);
+                });
+
+                productGrid.appendChild(item);
             });
-
-            productGrid.appendChild(item);
-        });
     }
 
     // 篩選商品
