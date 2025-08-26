@@ -1,880 +1,332 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>多多生活百貨</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.1em;
-            opacity: 0.8;
-        }
-
-        .filter-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .filter-tabs {
-            display: inline-flex;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            padding: 8px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            gap: 5px;
-        }
-
-        .filter-tab {
-            padding: 12px 25px;
-            border-radius: 25px;
-            border: none;
-            background: transparent;
-            color: #666;
-            font-size: 1em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .filter-tab:hover {
-            color: #667eea;
-            transform: translateY(-1px);
-        }
-
-        .filter-tab.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .filter-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-            max-width: 100%;
-        }
-
-        .product-card {
-            background: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .product-card.hidden {
-            display: none;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .product-image {
-            position: relative;
-            aspect-ratio: 1;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .product-image .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-card:hover .product-image .overlay {
-            opacity: 1;
-        }
-
-        .overlay-text {
-            color: white;
-            font-size: 1.1em;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-info {
-            padding: 25px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
-        }
-
-        .product-name {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .product-price {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #e74c3c;
-            margin-bottom: 15px;
-        }
-
-        .product-description {
-            color: #666;
-            font-size: 0.9em;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .sale-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: 600;
-            z-index: 10;
-        }
-
-        .contact-section {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 2px solid rgba(102, 126, 234, 0.2);
-        }
-
-        .contact-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .contact-header h2 {
-            font-size: 2em;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .contact-header p {
-            color: #666;
-            font-size: 1.1em;
-            opacity: 0.8;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 25px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 15px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
-            background: rgba(102, 126, 234, 0.08);
-        }
-
-        .contact-icon {
-            font-size: 2em;
-            margin-right: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .contact-details h3 {
-            color: #333;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .contact-details p {
-            color: #666;
-            font-size: 1em;
-            line-height: 1.5;
-        }
-
-        .image-section {
-            text-align: center;
-            padding: 30px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 15px;
-            border: 2px dashed rgba(102, 126, 234, 0.3);
-        }
-
-        .image-section h3 {
-            color: #333;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .image-placeholder {
-            width: 100%;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px dashed #667eea;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            transition: all 0.3s ease;
-        }
-
-        .image-placeholder:hover {
-            background: rgba(255, 255, 255, 1);
-            border-color: #764ba2;
-        }
-
-        .placeholder-content p {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .placeholder-content span {
-            font-size: 1em;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .placeholder-content small {
-            color: #999;
-            font-size: 0.8em;
-        }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        .lightbox-content {
-            display: flex;
-            max-width: 90%;
-            max-height: 90%;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-        }
-
-        .lightbox-image {
-            max-width: 50%;
-            object-fit: contain;
-        }
-
-        .lightbox-text {
-            padding: 30px;
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 1));
-        }
-
-        .lightbox-text h2 {
-            font-size: 1.8em;
-            font-weight: 600;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .lightbox-text .price {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #e74c3c;
-            margin-bottom: 15px;
-        }
-
-        .lightbox-text .description {
-            color: #666;
-            font-size: 1em;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .lightbox-text .additional-info {
-            color: #333;
-            font-size: 0.95em;
-            line-height: 1.6;
-            background: rgba(102, 126, 234, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 1001;
-            transition: transform 0.2s ease;
-        }
-
-        .close-btn:hover {
-            transform: scale(1.2);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 20px;
-                border-radius: 15px;
-            }
-
-            .header h1 {
-                font-size: 2em;
-            }
-
-            .filter-tabs {
-                flex-wrap: wrap;
-                gap: 10px;
-                justify-content: center;
-            }
-
-            .filter-tab {
-                padding: 10px 20px;
-                font-size: 0.9em;
-            }
-
-            .gallery {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .product-card {
-                max-width: 100%;
-            }
-
-            .product-info {
-                padding: 20px;
-            }
-
-            .product-name {
-                font-size: 1.2em;
-            }
-
-            .product-price {
-                font-size: 1.3em;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .contact-info {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .contact-item {
-                padding: 20px;
-            }
-
-            .contact-header h2 {
-                font-size: 1.8em;
-            }
-
-            .image-section {
-                padding: 20px;
-            }
-
-            .lightbox-content {
-                flex-direction: column;
-                max-height: 80%;
-                overflow-y: auto;
-            }
-
-            .lightbox-image {
-                max-width: 100%;
-                max-height: 40%;
-            }
-
-            .lightbox-text {
-                width: 100%;
-                padding: 20px;
-            }
-
-            .lightbox-text h2 {
-                font-size: 1.5em;
-            }
-
-            .lightbox-text .price {
-                font-size: 1.3em;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
-            }
-            
-            .product-card {
-                max-width: 100%;
-            }
-        }
-
-        @media (min-width: 1025px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 30px;
-            }
-            
-            .product-card {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .contact-section {
-                margin-top: 40px;
-                padding-top: 30px;
-            }
-
-            .contact-item {
-                padding: 15px;
-            }
-
-            .contact-icon {
-                font-size: 1.5em;
-            }
-
-            .product-info {
-                padding: 15px;
-            }
-
-            .product-name {
-                font-size: 1.1em;
-            }
-
-            .product-price {
-                font-size: 1.2em;
-            }
-
-            .lightbox-text h2 {
-                font-size: 1.3em;
-            }
-
-            .lightbox-text .price {
-                font-size: 1.2em;
-            }
-        }
-
-        .product-card {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.2s; }
-        .product-card:nth-child(3) { animation-delay: 0.3s; }
-        .product-card:nth-child(4) { animation-delay: 0.4s; }
-        .product-card:nth-child(5) { animation-delay: 0.5s; }
-        .product-card:nth-child(6) { animation-delay: 0.6s; }
-
-        .contact-item {
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .contact-item:nth-child(1) { animation-delay: 0.7s; }
-        .contact-item:nth-child(2) { animation-delay: 0.8s; }
-        .contact-item:nth-child(3) { animation-delay: 0.9s; }
-        .contact-item:nth-child(4) { animation-delay: 1.0s; }
-
-        .image-section {
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
-            animation-delay: 1.1s;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+<style>
+    /* 基礎樣式 */
+    body {
+        font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    header {
+        background-color: #333;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+    }
+    /* 導覽列與標籤 */
+    nav {
+        background-color: #444;
+        padding: 0.5rem;
+        text-align: center;
+    }
+    nav button {
+        background-color: #555;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        margin: 0 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    nav button:hover {
+        background-color: #777;
+    }
+    /* 商品網格 */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 預設電腦版 3 個欄位 */
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+    .product-item {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        text-align: center;
+        padding: 15px;
+        cursor: pointer;
+        transition: transform 0.3s;
+        /* 新增：確保高度一致 */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .product-item:hover {
+        transform: translateY(-5px);
+    }
+    .product-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+    .product-item h3 {
+        margin: 10px 0;
+        font-size: 1.2rem;
+    }
+    .product-item .price {
+        font-size: 1.5rem;
+        color: #e67e22;
+        font-weight: bold;
+    }
+    /* Lightbox */
+    .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .lightbox-content {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        animation: fadeIn 0.3s ease-in-out;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .lightbox-close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #aaa;
+        transition: color 0.3s;
+        z-index: 100;
+    }
+    .lightbox-close:hover {
+        color: #333;
+    }
+    .lightbox-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+    .lightbox-content h2 {
+        margin-top: 0;
+        color: #444;
+        font-size: 1.8rem;
+    }
+    .lightbox-content .lightbox-price {
+        font-size: 2rem;
+        color: #e67e22;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .lightbox-details {
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+    .lightbox-details h4 {
+        margin-bottom: 5px;
+        color: #555;
+        font-size: 1.2rem;
+    }
+    .lightbox-details ul {
+        padding-left: 0;
+        list-style: none;
+    }
+    .lightbox-details ul li {
+        margin-bottom: 8px;
+        background-color: #e9ecef;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #333;
+    }
+    .lightbox-details ul li:not(:last-child) {
+        margin-bottom: 8px;
+    }
+    /* 底部資訊 */
+    footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 30px;
+    }
+    footer p {
+        margin: 5px 0;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    /* 媒體查詢：手機版佈局 */
+    @media (max-width: 768px) {
+        .product-grid {
+            grid-template-columns: 1fr; /* 手機版改為單個欄位 */
+        }
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>多多生活百貨</h1>
-            <p>各種生活百貨雜貨 - 品質保證，價格實惠</p>
-        </div>
 
-        <div class="filter-section">
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="filterProducts('all')">全部商品</button>
-                <button class="filter-tab" onclick="filterProducts('charger')">行動電源</button>
-                <button class="filter-tab" onclick="filterProducts('小腿')">小腿系列</button>
-                <button class="filter-tab" onclick="filterProducts('內置')">內置系列</button>
-            </div>
-        </div>
+    <header>
+        <h1>多多生活百貨</h1>
+    </header>
 
-        <div class="gallery" id="gallery">
-            <div class="product-card" data-category="charger" onclick="openLightbox('charger/SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電.avif', 
-            'SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電', 'NT$ 1,299', 
-            'SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電。<br> 1234',
-            '★ 體積小、重量輕，電量數值顯示★ 送Type-C 快充傳輸線'
-            )">
-                <div class="sale-badge">熱銷</div>
-                <div class="product-image">
-                    <img src="charger/SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電.avif" alt="內置小腿">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電</div>
-                    <div class="product-price">NT$ 1,299</div>
-                    <div class="product-description">SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電</div>
-                </div>
-            </div>
+    <nav>
+        <button onclick="filterProducts('all')">所有商品</button>
+        <button onclick="filterProducts('light')">照明燈</button>
+        <button onclick="filterProducts('electronics')">電子產品</button>
+        </nav>
 
-            <div class="product-card" data-category="內置 大腿" onclick="openLightbox('Limb.png', '內置大腿', 'NT$ 1,599', '專業內置大腿設計，提供最佳支撐效果', '內置大腿設計專為需要額外支撐的用戶打造，結合人體工學，提供無與倫比的舒適體驗。')">
-                <div class="product-image">
-                    <img src="Limb.png" alt="內置大腿">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">內置大腿</div>
-                    <div class="product-price">NT$ 1,599</div>
-                    <div class="product-description">專業內置大腿設計，提供最佳支撐效果</div>
-                </div>
-            </div>
+    <main class="product-grid">
+        </main>
 
-            <div class="product-card" data-category="小腿" onclick="openLightbox('Limb.png', '外置小腿', 'NT$ 999', '輕量化外置小腿，操作簡單，性價比超高', '外置小腿以輕量化設計為特色，安裝簡單，適合追求高性價比的用戶。')">
-                <div class="sale-badge">推薦</div>
-                <div class="product-image">
-                    <img src="Limb.png" alt="外置小腿">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">外置小腿</div>
-                    <div class="product-price">NT$ 999</div>
-                    <div class="product-description">輕量化外置小腿，操作簡單，性價比超高</div>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="大腿" onclick="openLightbox('Limb.png', '外置大腿', 'NT$ 1,199', '堅固耐用的外置大腿，適合各種環境使用', '外置大腿採用耐用材料，適合多種使用場景，確保長期穩定性。')">
-                <div class="product-image">
-                    <img src="Limb.png" alt="外置大腿">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">外置大腿</div>
-                    <div class="product-price">NT$ 1,199</div>
-                    <div class="product-description">堅固耐用的外置大腿，適合各種環境使用</div>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="內置" onclick="openLightbox('Limb.png', '雙段內置', 'NT$ 1,899', '創新雙段設計，提供更靈活的調整功能', '雙段內置設計提供靈活的調整選項，滿足不同用戶的個性化需求。')">
-                <div class="sale-badge">新品</div>
-                <div class="product-image">
-                    <img src="Limb.png" alt="雙段內置">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">雙段內置</div>
-                    <div class="product-price">NT$ 1,899</div>
-                    <div class="product-description">創新雙段設計，提供更靈活的調整功能</div>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="外置" onclick="openLightbox('Limb.png', '雙段外置', 'NT$ 1,699', '雙段外置設計，兼顧功能性與便利性', '雙段外置設計結合功能性與便攜性，是戶外活動的理想選擇。')">
-                <div class="product-image">
-                    <img src="Limb.png" alt="雙段外置">
-                    <div class="overlay">
-                        <div class="overlay-text">點擊查看詳情</div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">雙段外置</div>
-                    <div class="product-price">NT$ 1,699</div>
-                    <div class="product-description">雙段外置設計，兼顧功能性與便利性</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact-section">
-            <div class="contact-header">
-                <h2>聯絡我們</h2>
-                <p>歡迎隨時與我們聯繫，我們將竭誠為您服務</p>
-            </div>
-            
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">🏢</div>
-                        <div class="contact-details">
-                            <h3>公司名稱</h3>
-                            <p>嘉竣有限公司</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-details">
-                            <h3>地址</h3>
-                            <p>桃園市中壢區環北路400號5樓之2</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-details">
-                            <h3>電話</h3>
-                            <p>0965-340497</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">💬</div>
-                        <div class="contact-details">
-                            <h3>LINE ID</h3>
-                            <p>@rhy7665e</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="image-section">
-                    <h3>更多商品圖片</h3>
-                    <div class="image-placeholder">
-                        <div class="placeholder-content">
-                            <p>📷</p>
-                            <span>請放置更多商品圖片</span>
-                            <small>建議尺寸: 300x200px</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="lightbox-overlay" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-image" src="" alt="商品圖片">
+        <h2 id="lightbox-name"></h2>
+        <p class="lightbox-price" id="lightbox-price"></p>
+        <div class="lightbox-details">
+            <h4><span role="img" aria-label="info">ℹ️</span> 產品說明</h4>
+            <p id="lightbox-introduce"></p>
+            <h4><span role="img" aria-label="star">✨</span> 附加規格</h4>
+            <ul id="lightbox-addition"></ul>
         </div>
     </div>
+</div>
 
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <span class="close-btn">&times;</span>
-        <div class="lightbox-content">
-            <img class="lightbox-image" id="lightbox-img" src="" alt="">
-            <div class="lightbox-text">
-                <h2 id="lightbox-title"></h2>
-                <div class="price" id="lightbox-price"></div>
-                <div class="description" id="lightbox-description"></div>
-                <div class="additional-info" id="lightbox-additional"></div>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <p>公司名稱：嘉竣有限公司</p>
+        <p>地址：桃園市中壢區環北路400號5樓之2</p>
+        <p>電話：0965-340497</p>
+        <p>Line ID：@rhy7665e</p>
+    </footer>
 
-    <script>
-        function openLightbox(src, title, price, description, additionalInfo) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const lightboxTitle = document.getElementById('lightbox-title');
-            const lightboxPrice = document.getElementById('lightbox-price');
-            const lightboxDescription = document.getElementById('lightbox-description');
-            const lightboxAdditional = document.getElementById('lightbox-additional');
+<script>
+    // 商品資料 (此處資料不變)
+    const products = [
+        {
+            "name": "LTP 太陽能LED光線感應照明燈 遙控定時調整亮度 分體式壁燈 路燈 戶外照明燈 探照燈",
+            "catg": "light",
+            "Price": 799,
+            "introduce": "環保太陽能 安裝便利 自動光暗循環開啟",
+            "addition": [
+                "自然能源免耗電，分體式設計，太陽能板、燈體分開安裝",
+                "可確實達到日照蓄電效果",
+                "型號：LED14-100W","燈珠數：100","燈體尺寸：16*12.8*4.7cm","燈體重量：290g","太陽能板尺寸：21.8*13.4*0.7cm","太陽能板重量：270g","延長線長：約4.5米","防護等級：IP67","燈體材質：塑材、多晶矽面板、金屬、電子原件","光源：SMD2835"
+            ]
+        },
+        {
+            "name": "LTP 雙頭護眼可定時 五色溫檯燈 全平面照明 五色溫 滑動調光 插電款 桌燈 閱讀燈 宿舍燈 開學必備 DT03",
+            "catg": "light",
+            "Price": 688,
+            "introduce": "雙頭燈 全桌面照明 雙頭全開加倍明亮",
+            "addition": [
+                "不管是宿舍 書房 閱讀 工作皆可使用",
+                "五色溫調整 亦有定時關機模式 閱讀模式",
+                "配合滑動調光 隨時可選擇自己喜好的模式",
+                "型號：DT03","充電電源：DC5V/1A","功率：10W","燈色模式：五檔切換","亮度調整：滑動調光","閱讀模式：有","定時關機模式：有","尺寸：39cm燈桿 12cm*18cm燈座 25cm單燈合併長 56cm雙燈展開長度"
+            ]
+        },
+        {
+            "name": "重低音迷你喇叭 TWS互連 無線藍牙喇叭 音響 小音箱 小喇叭",
+            "catg": "electronics",
+            "Price": 399,
+            "introduce": "低音喇叭 HIFI品質 小巧 呼吸燈光",
+            "addition": [
+                "產品名稱:重低音迷你藍芽喇叭",
+                "型號：BT04",
+                "藍牙規格:V5.1",
+                "無線傳輸範圍:10M",
+                "電池容量:約1000mAh",
+                "播放時間:約4H",
+                "產品尺寸:74*74*92.5mm",
+                "產品淨重:約284g",
+                "NCC： CCAJ15LP2260T3"
 
-            lightboxImg.src = src;
-            lightboxTitle.textContent = title;
-            lightboxPrice.textContent = price;
-            lightboxDescription.textContent = description;
-            lightboxAdditional.textContent = additionalInfo || '更多詳情請聯繫我們以獲取最新資訊。';
-
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('lightbox-description').innerHTML = description;
+            ]
         }
+    ];
 
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+    const productGrid = document.querySelector('.product-grid');
+    const lightboxOverlay = document.querySelector('.lightbox-overlay');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxName = document.getElementById('lightbox-name');
+    const lightboxPrice = document.getElementById('lightbox-price'); // 新增價格元素
+    const lightboxIntroduce = document.getElementById('lightbox-introduce');
+    const lightboxAddition = document.getElementById('lightbox-addition');
 
-        function filterProducts(category) {
-            const products = document.querySelectorAll('.product-card');
-            const tabs = document.querySelectorAll('.filter-tab');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            products.forEach(product => {
-                const productCategory = product.getAttribute('data-category') || '';
-                
-                if (category === 'all') {
-                    product.classList.remove('hidden');
-                } else {
-                    if (productCategory.includes(category)) {
-                        product.classList.remove('hidden');
-                    } else {
-                        product.classList.add('hidden');
-                    }
-                }
+    // 顯示商品
+    function displayProducts(filteredProducts) {
+        productGrid.innerHTML = '';
+        filteredProducts.forEach(product => {
+            const item = document.createElement('div');
+            item.className = 'product-item';
+            item.setAttribute('data-name', product.name);
+
+            item.innerHTML = `
+                <img src="./images/${product.name}.avif" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="price">NT$ ${product.Price}</p>
+            `;
+
+            item.addEventListener('click', () => {
+                openLightbox(product);
             });
-        }
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
+            productGrid.appendChild(item);
+        });
+    }
+
+    // 篩選商品
+    function filterProducts(category) {
+        const filtered = category === 'all'
+            ? products
+            : products.filter(p => p.catg === category);
+        displayProducts(filtered);
+    }
+
+    // 打開 Lightbox
+    function openLightbox(product) {
+        lightboxImage.src = `./images/${product.name}.avif`;
+        lightboxImage.alt = product.name;
+        lightboxName.textContent = product.name;
+        lightboxPrice.textContent = `NT$ ${product.Price}`; // 顯示價格
+        lightboxIntroduce.textContent = product.introduce;
+        
+        lightboxAddition.innerHTML = '';
+        product.addition.forEach(detail => {
+            const li = document.createElement('li');
+            li.textContent = `⭐ ${detail}`; // 加入星形 Emoji
+            lightboxAddition.appendChild(li);
         });
 
-        document.getElementById('lightbox-img').addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
+        lightboxOverlay.style.display = 'flex';
+    }
 
-        document.querySelector('.lightbox-text').addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    </script>
+    // 關閉 Lightbox
+    function closeLightbox() {
+        lightboxOverlay.style.display = 'none';
+    }
+
+    // 網頁載入時預設顯示所有商品
+    document.addEventListener('DOMContentLoaded', () => {
+        displayProducts(products);
+    });
+</script>
+
 </body>
 </html>
