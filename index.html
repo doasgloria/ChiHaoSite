@@ -647,25 +647,29 @@
         <div class="filter-section">
             <div class="filter-tabs">
                 <button class="filter-tab active" onclick="filterProducts('all')">全部商品</button>
-                <button class="filter-tab" onclick="filterProducts('大腿')">大腿系列</button>
+                <button class="filter-tab" onclick="filterProducts('charger')">行動電源</button>
                 <button class="filter-tab" onclick="filterProducts('小腿')">小腿系列</button>
                 <button class="filter-tab" onclick="filterProducts('內置')">內置系列</button>
             </div>
         </div>
 
         <div class="gallery" id="gallery">
-            <div class="product-card" data-category="內置 小腿" onclick="openLightbox('Limb.png', '內置小腿', 'NT$ 1,299', '高品質內置小腿，舒適耐用，適合長時間使用', '這款內置小腿採用高級材料製成，提供極佳的舒適度和耐用性，適合日常使用和長期穿戴。')">
+            <div class="product-card" data-category="charger" onclick="openLightbox('charger/SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電.avif', 
+            'SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電', 'NT$ 1,299', 
+            'SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電。<br> 1234',
+            '★ 體積小、重量輕，電量數值顯示★ 送Type-C 快充傳輸線'
+            )">
                 <div class="sale-badge">熱銷</div>
                 <div class="product-image">
-                    <img src="Limb.png" alt="內置小腿">
+                    <img src="charger/SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電.avif" alt="內置小腿">
                     <div class="overlay">
                         <div class="overlay-text">點擊查看詳情</div>
                     </div>
                 </div>
                 <div class="product-info">
-                    <div class="product-name">內置小腿</div>
+                    <div class="product-name">SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電</div>
                     <div class="product-price">NT$ 1,299</div>
-                    <div class="product-description">高品質內置小腿，舒適耐用，適合長時間使用</div>
+                    <div class="product-description">SP C20QC 20000mAh PD QC快充蘋果安卓 Type-C雙向快充行動電源 行充 行電</div>
                 </div>
             </div>
 
@@ -827,6 +831,7 @@
 
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            document.getElementById('lightbox-description').innerHTML = description;
         }
 
         function closeLightbox() {
