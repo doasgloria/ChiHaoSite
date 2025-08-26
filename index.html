@@ -52,38 +52,44 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             margin-bottom: 30px;
         }
 
-        .gallery-item {
-            position: relative;
-            aspect-ratio: 1;
-            border-radius: 15px;
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .gallery-item img {
+        .product-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.4s ease;
         }
 
-        .gallery-item:hover img {
+        .product-card:hover .product-image img {
             transform: scale(1.1);
         }
 
-        .gallery-item .overlay {
+        .product-image .overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -97,15 +103,76 @@
             transition: opacity 0.3s ease;
         }
 
-        .gallery-item:hover .overlay {
+        .product-card:hover .product-image .overlay {
             opacity: 1;
         }
 
         .overlay-text {
             color: white;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-info {
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            z-index: 10;
         }
 
         /* 聯絡資訊區塊樣式 */
@@ -187,7 +254,7 @@
             line-height: 1.5;
         }
 
-        .qr-code-section {
+        .image-section {
             text-align: center;
             padding: 30px;
             background: rgba(102, 126, 234, 0.05);
@@ -195,7 +262,7 @@
             border: 2px dashed rgba(102, 126, 234, 0.3);
         }
 
-        .qr-code-section h3 {
+        .image-section h3 {
             color: #333;
             font-size: 1.3em;
             font-weight: 600;
@@ -206,10 +273,9 @@
             background-clip: text;
         }
 
-        .qr-code-placeholder {
-            width: 200px;
+        .image-placeholder {
+            width: 100%;
             height: 200px;
-            margin: 0 auto;
             background: rgba(255, 255, 255, 0.8);
             border: 2px dashed #667eea;
             border-radius: 15px;
@@ -218,18 +284,26 @@
             align-items: center;
             justify-content: center;
             color: #666;
-            font-size: 0.9em;
-            text-align: center;
             transition: all 0.3s ease;
         }
 
-        .qr-code-placeholder:hover {
+        .image-placeholder:hover {
             background: rgba(255, 255, 255, 1);
             border-color: #764ba2;
         }
 
-        .qr-code-placeholder small {
-            margin-top: 10px;
+        .placeholder-content p {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .placeholder-content span {
+            font-size: 1em;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .placeholder-content small {
             color: #999;
             font-size: 0.8em;
         }
@@ -290,22 +364,20 @@
             }
 
             .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
             }
 
-            .gallery-item {
-                border-radius: 10px;
+            .product-info {
+                padding: 20px;
             }
 
-            .overlay-text {
-                font-size: 1em;
+            .product-name {
+                font-size: 1.2em;
             }
 
-            .close-btn {
-                top: 10px;
-                right: 20px;
-                font-size: 25px;
+            .product-price {
+                font-size: 1.3em;
             }
 
             .contact-content {
@@ -326,13 +398,8 @@
                 font-size: 1.8em;
             }
 
-            .qr-code-section {
+            .image-section {
                 padding: 20px;
-            }
-
-            .qr-code-placeholder {
-                width: 150px;
-                height: 150px;
             }
         }
 
@@ -343,8 +410,8 @@
             }
 
             .gallery {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
 
             .container {
@@ -364,26 +431,32 @@
                 font-size: 1.5em;
             }
 
-            .qr-code-placeholder {
-                width: 120px;
-                height: 120px;
-                font-size: 0.8em;
+            .product-info {
+                padding: 15px;
+            }
+
+            .product-name {
+                font-size: 1.1em;
+            }
+
+            .product-price {
+                font-size: 1.2em;
             }
         }
 
         /* 載入動畫 */
-        .gallery-item {
+        .product-card {
             animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
             transform: translateY(30px);
         }
 
-        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
-        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
-        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
-        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
-        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
-        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
 
         .contact-item {
             animation: fadeInUp 0.8s ease forwards;
@@ -396,7 +469,7 @@
         .contact-item:nth-child(3) { animation-delay: 0.9s; }
         .contact-item:nth-child(4) { animation-delay: 1.0s; }
 
-        .qr-code-section {
+        .image-section {
             animation: fadeInUp 0.8s ease forwards;
             opacity: 0;
             transform: translateY(30px);
@@ -415,49 +488,100 @@
     <div class="container">
         <div class="header">
             <h1>多多生活百貨</h1>
-            <p>各種生活百貨雜貨</p>
+            <p>各種生活百貨雜貨 - 品質保證，價格實惠</p>
         </div>
 
         <div class="gallery" id="gallery">
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="內置小腿">
-                <div class="overlay">
-                    <div class="overlay-text">內置小腿</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="sale-badge">熱銷</div>
+                <div class="product-image">
+                    <img src="Limb.png" alt="內置小腿">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">內置小腿</div>
+                    <div class="product-price">NT$ 1,299</div>
+                    <div class="product-description">高品質內置小腿，舒適耐用，適合長時間使用</div>
+
                 </div>
             </div>
 
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="內置大腿">
-                <div class="overlay">
-                    <div class="overlay-text">內置大腿</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="product-image">
+                    <img src="Limb.png" alt="內置大腿">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">內置大腿</div>
+                    <div class="product-price">NT$ 1,599</div>
+                    <div class="product-description">專業內置大腿設計，提供最佳支撐效果</div>
+
                 </div>
             </div>
 
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="外置小腿">
-                <div class="overlay">
-                    <div class="overlay-text">外置小腿</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="sale-badge">推薦</div>
+                <div class="product-image">
+                    <img src="Limb.png" alt="外置小腿">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">外置小腿</div>
+                    <div class="product-price">NT$ 999</div>
+                    <div class="product-description">輕量化外置小腿，操作簡單，性價比超高</div>
+
                 </div>
             </div>
 
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="外置大腿">
-                <div class="overlay">
-                    <div class="overlay-text">外置大腿</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="product-image">
+                    <img src="Limb.png" alt="外置大腿">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">外置大腿</div>
+                    <div class="product-price">NT$ 1,199</div>
+                    <div class="product-description">堅固耐用的外置大腿，適合各種環境使用</div>
+
                 </div>
             </div>
 
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="雙段內置">
-                <div class="overlay">
-                    <div class="overlay-text">雙段內置</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="sale-badge">新品</div>
+                <div class="product-image">
+                    <img src="Limb.png" alt="雙段內置">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">雙段內置</div>
+                    <div class="product-price">NT$ 1,899</div>
+                    <div class="product-description">創新雙段設計，提供更靈活的調整功能</div>
+
                 </div>
             </div>
 
-            <div class="gallery-item" onclick="openLightbox('Limb.png')">
-                <img src="Limb.png" alt="雙段外置">
-                <div class="overlay">
-                    <div class="overlay-text">雙段外置</div>
+            <div class="product-card" onclick="openLightbox('Limb.png')">
+                <div class="product-image">
+                    <img src="Limb.png" alt="雙段外置">
+                    <div class="overlay">
+                        <div class="overlay-text">點擊查看大圖</div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">雙段外置</div>
+                    <div class="product-price">NT$ 1,699</div>
+                    <div class="product-description">雙段外置設計，兼顧功能性與便利性</div>
+
                 </div>
             </div>
         </div>
@@ -466,7 +590,7 @@
         <div class="contact-section">
             <div class="contact-header">
                 <h2>聯絡我們</h2>
-                <p>歡迎隨時與我們聯繫</p>
+                <p>歡迎隨時與我們聯繫，我們將竭誠為您服務</p>
             </div>
             
             <div class="contact-content">
@@ -504,18 +628,14 @@
                     </div>
                 </div>
 
-                <div class="qr-code-section">
-                    <h3>歡迎掃描加入好友哦^.^</h3>
-                    <div class="qr-placeholder">
-                        <img src="QRCODE.jpg" alt="LINE QR Code" width="200" height="200">        
-                        <!-- 這裡放置您的 LINE QR Code 圖片 -->
-                         <!--
-                        <div class="qr-code-placeholder">
-                            <p>請將您的 LINE QR Code<br>圖片放置在此處</p>
-                            <small>建議尺寸: 200x200px</small>
+                <div class="image-section">
+                    <h3>更多商品圖片</h3>
+                    <div class="image-placeholder">
+                        <div class="placeholder-content">
+                            <p>📷</p>
+                            <span>請放置更多商品圖片</span>
+                            <small>建議尺寸: 300x200px</small>
                         </div>
-                         -->
-                        <!-- 實際使用時請替換為: <img src="your-qr-code.png" alt="LINE QR Code"> -->
                     </div>
                 </div>
             </div>
@@ -541,6 +661,13 @@
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('active');
             document.body.style.overflow = 'auto';
+        }
+
+        function contactUs(event, productName) {
+            event.stopPropagation(); // 防止觸發父元素的點擊事件
+            const message = `您好！我對「${productName}」這個商品有興趣，請問可以提供更多資訊嗎？`;
+            const lineUrl = `https://line.me/R/oaoa/msg?${encodeURIComponent(message)}`;
+            window.open(lineUrl, '_blank');
         }
 
         // ESC鍵關閉燈箱
