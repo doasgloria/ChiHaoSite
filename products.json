@@ -1,5 +1,8 @@
 {
   "products": [
-    "products/ltp-solar-led-light.json"
+    "products/ltp-solar-led-light.json",
+    "products/ltp-dual-head-desk-lamp.json",
+    "products/mini-bluetooth-speaker.json",
+    "products/electric-body-trimmer.json"
   ]
 }
