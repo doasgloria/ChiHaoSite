@@ -36,6 +36,13 @@
         nav button:hover {
             background-color: #777;
         }
+        /* 載入中樣式 */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
         /* 商品網格 */
         .product-grid {
             display: grid;
@@ -89,7 +96,6 @@
             letter-spacing: 1px;
             z-index: 10; /* 確保標籤在圖片上方 */
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            /* **修正**：移除 'display: none;'，讓標籤預設可見。 */
         }
         /* Lightbox */
         .lightbox-overlay {
@@ -205,10 +211,11 @@
         <button onclick="filterProducts('light')">照明燈</button>
         <button onclick="filterProducts('electronics')">電子產品</button>
         <button onclick="filterProducts('beauty')">美妝按摩</button>
-        </nav>
+    </nav>
 
     <main class="product-grid">
-        </main>
+        <div class="loading">載入商品中...</div>
+    </main>
 
 <div class="lightbox-overlay" onclick="closeLightbox()">
     <div class="lightbox-content" onclick="event.stopPropagation()">
@@ -233,104 +240,85 @@
     </footer>
 
 <script>
-    // 商品資料 (此處資料不變)
-    const products = [
-        {
-            "name": "LTP 太陽能LED光線感應照明燈 遙控定時調整亮度 分體式壁燈 路燈 戶外照明燈 探照燈",
-            "catg": "light",
-            "Price": 799,
-            "introduce": "環保太陽能 安裝便利 自動光暗循環開啟",
-            "addition": [
-                "自然能源免耗電，分體式設計，太陽能板、燈體分開安裝",
-                "可確實達到日照蓄電效果",
-                "型號：LED14-100W","燈珠數：100","燈體尺寸：16*12.8*4.7cm","燈體重量：290g","太陽能板尺寸：21.8*13.4*0.7cm","太陽能板重量：270g","延長線長：約4.5米","防護等級：IP67","燈體材質：塑材、多晶矽面板、金屬、電子原件","光源：SMD2835"
-            ]
-        },
-        {
-            "name": "LTP 雙頭護眼可定時 五色溫檯燈 全平面照明 五色溫 滑動調光 插電款 桌燈 閱讀燈 宿舍燈 開學必備 DT03",
-            "tag": "熱銷",
-            "catg": "light",
-            "Price": 688,
-            "introduce": "雙頭燈 全桌面照明 雙頭全開加倍明亮",
-            "addition": [
-                "不管是宿舍 書房 閱讀 工作皆可使用",
-                "五色溫調整 亦有定時關機模式 閱讀模式",
-                "配合滑動調光 隨時可選擇自己喜好的模式",
-                "型號：DT03","充電電源：DC5V/1A","功率：10W","燈色模式：五檔切換","亮度調整：滑動調光","閱讀模式：有","定時關機模式：有","尺寸：39cm燈桿 12cm*18cm燈座 25cm單燈合併長 56cm雙燈展開長度"
-            ]
-        },
-        {
-            "name": "重低音迷你喇叭 TWS互連 無線藍牙喇叭 音響 小音箱 小喇叭",
-            "catg": "electronics",
-            "Price": 399,
-            "introduce": "低音喇叭 HIFI品質 小巧 呼吸燈光",
-            "addition": [
-                "產品名稱:重低音迷你藍芽喇叭",
-                "型號：BT04",
-                "藍牙規格:V5.1",
-                "無線傳輸範圍:10M",
-                "電池容量:約1000mAh",
-                "播放時間:約4H",
-                "產品尺寸:74*74*92.5mm",
-                "產品淨重:約284g",
-                "NCC： CCAJ15LP2260T3"
-
-            ]
-        },
-        {
-            "name": "LTP 防水電動美體修毛機 修毛儀 除毛刀 電動剃毛器 電動除毛機 私密處除毛 除毛機 除毛儀",
-            "catg": "beauty",
-            "Price": 448,
-            "introduce": "雙刀頭 IPX7防水",
-            "addition": [
-                "工作電壓：3.7V",
-                "工作電流：300mA",
-                "額定功率：1W",
-                "防水等級：IP6.7",
-                "電池：鋰電池",
-                "電池容量：300mAh",
-                "充電時間：約2小時",
-                "尺寸：151*32*30mm",
-                "重量：105g",
-                "包裝尺寸：170*67*42mm"
-
-            ]
-        }
-        
-    ];
-
+    // 全域商品資料陣列
+    let products = [];
+    
     const productGrid = document.querySelector('.product-grid');
     const lightboxOverlay = document.querySelector('.lightbox-overlay');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxName = document.getElementById('lightbox-name');
-    const lightboxPrice = document.getElementById('lightbox-price'); // 新增價格元素
+    const lightboxPrice = document.getElementById('lightbox-price');
     const lightboxIntroduce = document.getElementById('lightbox-introduce');
     const lightboxAddition = document.getElementById('lightbox-addition');
 
+    // 載入商品資料
+    async function loadProducts() {
+        try {
+            console.log('開始載入商品清單...');
+            
+            // 先載入商品清單
+            const response = await fetch('./products.json');
+            if (!response.ok) {
+                throw new Error(`載入 products.json 失敗: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('商品清單載入成功:', data);
+            
+            // 載入每個商品的詳細資料
+            const productPromises = data.products.map(async (productPath) => {
+                console.log('載入商品:', productPath);
+                const productResponse = await fetch('./' + productPath);
+                if (!productResponse.ok) {
+                    throw new Error(`載入 ${productPath} 失敗: ${productResponse.status}`);
+                }
+                return await productResponse.json();
+            });
+            
+            // 等待所有商品載入完成
+            products = await Promise.all(productPromises);
+            console.log('所有商品載入完成:', products);
+            
+            // 顯示商品
+            displayProducts(products);
+        } catch (error) {
+            console.error('載入商品資料失敗:', error);
+            productGrid.innerHTML = `
+                <div class="loading">
+                    載入商品失敗: ${error.message}<br>
+                    請檢查 Console 查看詳細錯誤訊息，並確認檔案路徑是否正確
+                </div>
+            `;
+        }
+    }
+
     // 顯示商品
     function displayProducts(filteredProducts) {
-            productGrid.innerHTML = '';
-            filteredProducts.forEach(product => {
-                const item = document.createElement('div');
-                item.className = 'product-item';
-                item.setAttribute('data-name', product.name);
+        productGrid.innerHTML = '';
+        filteredProducts.forEach(product => {
+            const item = document.createElement('div');
+            item.className = 'product-item';
+            item.setAttribute('data-name', product.name);
 
-                // 根據商品是否有 tag 屬性來動態生成標籤
-                const tagHtml = product.tag ? `<div class="product-tag">${product.tag}</div>` : '';
+            // 根據商品是否有 tag 屬性來動態生成標籤
+            const tagHtml = product.tag ? `<div class="product-tag">${product.tag}</div>` : '';
 
-                item.innerHTML = `
-                    ${tagHtml}
-                    <img src="./images/${product.name}.avif" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p class="price">NT$ ${product.Price}</p>
-                `;
+            // 決定圖片檔名：優先使用 image 屬性，否則使用 name
+            const imageName = product.image || product.name;
+            
+            item.innerHTML = `
+                ${tagHtml}
+                <img src="./images/${imageName}.avif" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="price">NT$ ${product.Price}</p>
+            `;
 
-                item.addEventListener('click', () => {
-                    openLightbox(product);
-                });
-
-                productGrid.appendChild(item);
+            item.addEventListener('click', () => {
+                openLightbox(product);
             });
+
+            productGrid.appendChild(item);
+        });
     }
 
     // 篩選商品
@@ -343,16 +331,17 @@
 
     // 打開 Lightbox
     function openLightbox(product) {
-        lightboxImage.src = `./images/${product.name}.avif`;
+        const imageName = product.image || product.name;
+        lightboxImage.src = `./images/${imageName}.avif`;
         lightboxImage.alt = product.name;
         lightboxName.textContent = product.name;
-        lightboxPrice.textContent = `NT$ ${product.Price}`; // 顯示價格
+        lightboxPrice.textContent = `NT$ ${product.Price}`;
         lightboxIntroduce.textContent = product.introduce;
         
         lightboxAddition.innerHTML = '';
         product.addition.forEach(detail => {
             const li = document.createElement('li');
-            li.textContent = `⭐ ${detail}`; // 加入星形 Emoji
+            li.textContent = `⭐ ${detail}`;
             lightboxAddition.appendChild(li);
         });
 
@@ -364,9 +353,9 @@
         lightboxOverlay.style.display = 'none';
     }
 
-    // 網頁載入時預設顯示所有商品
+    // 網頁載入時載入商品資料
     document.addEventListener('DOMContentLoaded', () => {
-        displayProducts(products);
+        loadProducts();
     });
 </script>
 
