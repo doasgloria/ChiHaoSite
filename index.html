@@ -207,18 +207,27 @@ header h1 {
             overflow-y: auto;
         }
         
-        .lightbox-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 90%;
-            position: relative;
-            animation: fadeIn 0.3s ease-in-out;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+.lightbox-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px; /* 電腦上最大寬度 */
+    width: 90%;       /* 預設佔九成 */
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* 📱 手機版 (小於 768px) */
+@media (max-width: 768px) {
+    .lightbox-content {
+        width: 85%;      /* 改成只佔 85% */
+        max-width: 400px; /* 不要太大 */
+        padding: 20px;   /* 減少邊距讓內容更緊湊 */
+    }
+}
         
         .lightbox-close {
             position: absolute;
