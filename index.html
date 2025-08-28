@@ -515,6 +515,7 @@ header h1 {
 
         lightboxOverlay.style.display = 'flex';
         lightboxOverlay.scrollIntoView({ behavior: "smooth", block: "center" });
+        document.querySelector(".lightbox-content").scrollTop = 0;
     }
 
     // 關閉 Lightbox
