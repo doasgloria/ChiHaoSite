@@ -223,9 +223,10 @@ header h1 {
 /* 📱 手機版 (小於 768px) */
 @media (max-width: 768px) {
     .lightbox-content {
-        width: 85%;      /* 改成只佔 85% */
-        max-width: 400px; /* 不要太大 */
-        padding: 20px;   /* 減少邊距讓內容更緊湊 */
+        width: 75%;        /* 寬度從 85% → 75%，左右露更多 */
+        max-width: 360px;  /* 限制最大寬度 */
+        max-height: 80vh;  /* 高度縮到 80% 螢幕，讓上下露黑邊 */
+        padding: 16px;     /* 內容內距也縮小一點，避免太擠 */
     }
 }
         
