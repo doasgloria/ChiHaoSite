@@ -488,6 +488,9 @@
         lightboxIntroduce.textContent = product.introduce;
         
         lightboxAddition.innerHTML = '';
+        
+
+
         product.addition.forEach(detail => {
             const li = document.createElement('li');
             li.textContent = `⭐ ${detail}`;
@@ -495,6 +498,7 @@
         });
 
         lightboxOverlay.style.display = 'flex';
+        lightboxOverlay.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     // 關閉 Lightbox
